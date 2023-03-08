@@ -57,7 +57,7 @@ func filenamesFromCommandLine() (inFilename string, outFilename string, err erro
 	if inFilename != "" && inFilename == outFilename {
 		log.Fatal("won't overwrite the infile")
 	}
-	return //inFilename, outFilename, nil
+	return inFilename, outFilename, nil
 }
 
 var britishAmerican = "british-american.txt"
