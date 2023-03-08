@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"math"
 	"net/http"
 	"sort"
 	"strconv"
@@ -27,6 +28,8 @@ type statistics struct {
 	numbers []float64
 	mean    float64
 	median  float64
+	mode    []float64
+	std     float64
 }
 
 func main() {
@@ -77,7 +80,9 @@ func formatStats(stats statistics) string {
 <tr><td>Count</td><td>%d</td></tr>
 <tr><td>Mean</td><td>%f</td></tr>
 <tr><td>Median</td><td>%f</td></tr>
-</table>`, stats.numbers, len(stats.numbers), stats.mean, stats.median)
+<tr><td>Mode</td><td>%f</td></tr>
+<tr><td>Std Dev.</td><td>%f</td></tr>
+</table>`, stats.numbers, len(stats.numbers), stats.mean, stats.median, stats.mode, stats.std)
 }
 
 func getStats(numbers []float64) (stats statistics) {
@@ -85,6 +90,8 @@ func getStats(numbers []float64) (stats statistics) {
 	sort.Float64s(stats.numbers)
 	stats.mean = sum(numbers) / float64(len(numbers))
 	stats.median = median(numbers)
+	stats.mode = mode(numbers)
+	stats.std = stdDev(numbers, stats.mean)
 	return stats
 }
 
@@ -102,4 +109,34 @@ func median(numbers []float64) float64 {
 		result = (result + numbers[middle-1]) / 2
 	}
 	return result
+}
+
+func stdDev(numbers []float64, mean float64) float64 {
+	total := 0.0
+	for _, number := range numbers {
+		total += math.Pow(number-mean, 2)
+	}
+	variance := total / float64(len(numbers)-1)
+	return math.Sqrt(variance)
+}
+
+func mode(numbers []float64) (modes []float64) {
+	frequencies := make(map[float64]int, len(numbers))
+	highestFrequency := 0
+	for _, x := range numbers {
+		frequencies[x]++
+		if frequencies[x] > highestFrequency {
+			highestFrequency = frequencies[x]
+		}
+	}
+	for x, freq := range frequencies {
+		if freq == highestFrequency {
+			modes = append(modes, x)
+		}
+	}
+	if highestFrequency == 1 || len(modes) == len(frequencies) {
+		modes = modes[:0] // or: modes = []float64{}
+	}
+	sort.Float64s(modes)
+	return modes
 }
