@@ -69,3 +69,35 @@ func (fuzzy *FuzzyBool) Set(value interface{}) (err error) {
 func (fuzzy *FuzzyBool) Copy() *FuzzyBool {
 	return &FuzzyBool{fuuzy.value}
 }
+
+func (fuzzy *FuzzyBool) Not() *FuzzyBool {
+	return &FuzzyBool{1 - fuzzy.value}
+}
+
+func (fuzzy *FuzzyBool) And(first *FuzzyBool, rest ...*FuzzyBool) *FuzzyBool {
+	minimum := fuzzy.value
+	rest = append(rest, first)
+	for _, other := range rest {
+		if minimum > other.value {
+			minimum = other.value
+		}
+	}
+
+	return &FuzzyBool{minimum}
+}
+
+func (fuzzy * FuzzyBool) Less(other * FuzzyBool) bool {
+	return fuzzy.value < other.value
+}
+
+func (fuzzy *FuzzyBool) Equal(other *FuzzyBool) bool {
+	return fuzzy.value == other.value
+}
+
+func (fuzzy *FuzzyBool) Bool() bool {
+	return fuzzy.value >= .5
+}
+
+func (fuzzy *FuzzyBool) Float() float64 {
+	return float64(fuzzy.value)
+}
