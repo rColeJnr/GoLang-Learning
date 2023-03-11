@@ -6,10 +6,22 @@ as well as the ability to run a HTTP server that can route request to separate G
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 )
+
+type helloWorldResponse struct {
+	// change the output field to be `message`
+	Message string `json:"message"`
+	// do not output this field
+	Author string `json:"-"`
+	// do not output if value isEmpty
+	Date string `json:",omitempty"`
+	// convert output to a string and rename "id"
+	Id int `json:"id, string"`
+}
 
 func main() {
 	port := 1205
@@ -29,5 +41,16 @@ func main() {
 }
 
 func helloWorldHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello world\n")
+	response := helloWorldResponse{Message: "HelloWorld"}
+	encoder := json.NewEncoder(w)
+	encoder.Encode(&response)
+	data, err := json.Marshal(response)
+	if err != nil {
+		panic("Ooops")
+	}
+
+	fmt.Fprint(w, string(data))
 }
+
+/* `panic` causes normal exec to stop and all deferred function call in the Go routine are exec,
+the program will then crash with a log message.*/
