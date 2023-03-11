@@ -1,8 +1,8 @@
 package main
 
 import (
-	"filepath"
 	"fmt"
+	"path/filepath"
 	"strings"
 )
 
