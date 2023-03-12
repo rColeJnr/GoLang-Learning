@@ -16,11 +16,15 @@ type helloWorldResponse struct {
 	// change the output field to be `message`
 	Message string `json:"message"`
 	// do not output this field
-	Author string `json:"-"`
-	// do not output if value isEmpty
-	Date string `json:",omitempty"`
-	// convert output to a string and rename "id"
-	Id int `json:"id, string"`
+	// Name string `json:"name"`
+	// // do not output if value isEmpty
+	// Date string `json:",omitempty"`
+	// // convert output to a string and rename "id"
+	// Id int `json:"id, string"`
+}
+
+type helloWorldRequest struct {
+	Name string `json:"name"`
 }
 
 func main() {
@@ -37,19 +41,23 @@ func main() {
 
 	// ListenAndServer blocks if the server starts correctly we will never exit on a succeessful start
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port), nil))
-
 }
 
 func helloWorldHandler(w http.ResponseWriter, r *http.Request) {
-	response := helloWorldResponse{Message: "HelloWorld"}
-	encoder := json.NewEncoder(w)
-	encoder.Encode(&response)
-	data, err := json.Marshal(response)
+
+	var request helloWorldRequest
+	decoder := json.NewDecoder(r.Body)
+
+	err := decoder.Decode(&request)
 	if err != nil {
-		panic("Ooops")
+		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
 	}
 
-	fmt.Fprint(w, string(data))
+	response := helloWorldResponse{Message: "Hello " + request.Name + " my World"}
+	encoder := json.NewEncoder(w)
+	encoder.Encode(&response)
+
 }
 
 /* `panic` causes normal exec to stop and all deferred function call in the Go routine are exec,
