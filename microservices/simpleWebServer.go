@@ -27,6 +27,10 @@ type helloWorldRequest struct {
 	Name string `json:"name"`
 }
 
+type validationHandler struct {
+	next http.Handler
+}
+
 func main() {
 	port := 1205
 
