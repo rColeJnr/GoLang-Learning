@@ -19,9 +19,30 @@ type Product struct {
 
 type Products []*Product
 
+/*
+ * to/from Json serializes the contents of the collection
+ * Json encoder provides better performance than json.Un/Marshal as it does not
+ * Have to buffer the output into a n in memory slice of bytes
+ * this reduces allocations and the overheads of the service
+ */
+func (p *Product) FromJson(r io.Reader) error {
+	e := json.NewDecoder(r)
+	return e.Decode(p)
+}
+
 func (p *Products) ToJson(w io.Writer) error {
 	e := json.NewEncoder(w)
 	return e.Encode(p)
+}
+
+func AddProduct(p *Product) {
+	p.ID = getNextId()
+	productList = append(productList, p)
+}
+
+func getNextId() int {
+	lp := productList[len(productList)-1]
+	return lp.ID + 1
 }
 
 func GetProducts() Products {
@@ -49,7 +70,7 @@ var productList = []*Product{
 		UpdatedOn:   time.Now().UTC().String(),
 	},
 	&Product{
-		ID:          2,
+		ID:          3,
 		Name:        "Tea",
 		Description: "Java tea, empowers my android development",
 		Price:       0.99,
