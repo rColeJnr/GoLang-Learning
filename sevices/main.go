@@ -8,26 +8,39 @@ import (
 	"os/signal"
 	"product-api/handlers"
 	"time"
+
+	"github.com/gorilla/mux"
+	"github.com/nicholasjackson/env"
 )
+
+var bindAddress = env.String("BIND_ADDRESS", false, ":1205", "Bind address for the server")
 
 func main() {
 
-	l := log.New(os.Stdout, "products-api", log.LstdFlags)
-	var port string = ":1205`"
+	env.Parse()
 
-	// hh := handlers.NewHello(l)
-	// gh := handlers.NewGoodbye(l)
+	l := log.New(os.Stdout, "products-api", log.LstdFlags)
+
+	// create handler
 	ph := handlers.NewProducts(l)
 
 	// Create a new server and register handlers
-	sm := http.NewServeMux()
-	// sm.Handle("/", hh)
-	// sm.Handle("/goodbye", gh)
-	sm.Handle("/", ph)
+	sm := mux.NewRouter() // using the gorrila package
+
+	getRouter := sm.Methods(http.MethodGet).Subrouter()
+	getRouter.HandleFunc("/", ph.GetProducts)
+
+	putRouter := sm.Methods(http.MethodPut).Subrouter()
+	putRouter.HandleFunc("/{id:[0-9]+}", ph.UpdateProducts)
+	putRouter.Use(ph.MiddlewareValidateProduct)
+
+	postRouter := sm.Methods(http.MethodPost).Subrouter()
+	postRouter.HandleFunc("/", ph.AddProduct)
+	postRouter.Use(ph.MiddlewareValidateProduct)
 
 	// create a new server
 	s := &http.Server{
-		Addr:         port,              // Configure the bind address
+		Addr:         *bindAddress,      // Configure the bind address
 		Handler:      sm,                // set the default handler
 		IdleTimeout:  120 * time.Second, // max time for connections using TCP keep-alive
 		ReadTimeout:  1 * time.Second,   // max time to read request from the client
@@ -37,7 +50,7 @@ func main() {
 
 	// start the server
 	go func() {
-		l.Printf("Starting server on port %v\n", port)
+		l.Printf("Starting server on port %v\n", *bindAddress)
 
 		err := s.ListenAndServe()
 		if err != nil {
