@@ -13,7 +13,7 @@ import (
 func main() {
 
 	l := log.New(os.Stdout, "products-api", log.LstdFlags)
-	var port string = ":1205"
+	var port string = ":1205`"
 
 	// hh := handlers.NewHello(l)
 	// gh := handlers.NewGoodbye(l)
