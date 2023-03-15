@@ -1,0 +1,12 @@
+Mux stands for the multiplexer. Similarly, Gorilla Mux is a multiplexer designed to
+multiplex HTTP routes (URLs) to different handlers. Handlers are the functions which can
+handle the given requests. Gorilla Mux is a wonderful package for writing beautiful routes
+for our web applications and API servers.
+Gorilla Mux provides tons of options to control how routing is done to your web
+application. It allows a lot of features. Some of them are:
+- Path-based matching
+- Query-based matching
+- Domain-based matching
+- Sub-domainbased matching
+- Reverse URL generation
+
