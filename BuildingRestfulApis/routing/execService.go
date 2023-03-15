@@ -36,12 +36,3 @@ func GoVersion(w http.ResponseWriter, r *http.Request, params httprouter.Params)
 func GetFileContent(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	fmt.Fprintf(w, getCommandOutput("D:\\Bandicam", params.ByName("name")))
 }
-
-func main() {
-	router := httprouter.New()
-	// Mapping to methods is possible with HttpRputer
-	// GET params: URL Path and HandlerFunc
-	router.GET("/api/vi/go-version", GoVersion)
-	router.GET("/api/v1/show-file/:name", GetFileContent)
-	log.Fatal(http.ListenAndServe(":1205", router))
-}

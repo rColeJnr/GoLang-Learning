@@ -8,12 +8,13 @@ struct with the ServeHTTP method, it can do the job
 // HTTPROUTER
 httprouter, as the name suggests, routes the HTTP requests to particular handlers.
 Compared to the basic router, it has the following features:
-Allows variables in the route paths
-It matches the REST methods (GET, POST, PUT, and so on)
-No compromising on performance
+- Allows variables in the route paths
+- It matches the REST methods (GET, POST, PUT, and so on)
+- No compromising on performance
+
 We are going to discuss these qualities in more detail in the following section. Before that,
 there are a few noteworthy points that make httprouter an even better URL router:
-httprouter plays well with the inbuilt http.Handler
-httprouter explicitly says that a request can only match to one route or none
-The router's design encourages building sensible, hierarchical RESTful APIs
-You can build efficient static file servers
+- httprouter plays well with the inbuilt http.Handler
+- httprouter explicitly says that a request can only match to one route or none
+- The router's design encourages building sensible, hierarchical RESTful APIs
+- You can build efficient static file servers
