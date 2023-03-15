@@ -1,0 +1,2 @@
+Use `path` parameters for a single resource and `query` for multiple resources in a `get` request
+
