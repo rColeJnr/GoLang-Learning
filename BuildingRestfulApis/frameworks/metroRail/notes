@@ -1,0 +1,17 @@
+All these REST methods are defined on the instance of the TimeResource struct. Coming to
+the GET handler, it is passing Request and Response as its arguments. The path
+parameters can be fetched using the request.PathParameter function. The argument
+passed to it will be in agreement with the route we added in the preceding code snippet.
+That is, train-id will be returned into the handler so that we can strip it and use it as
+criteria to fetch a record from our SQLite database.
+In the POST handler function, we are parsing the request body with the JSON package's
+NewDecoder function. go-restful doesn't have a function to parse raw data posted from
+the client. There are functions available to strip query parameters and form parameters, but
+this one is missing. So, we wrote our own logic to strip and parsed the JSON body, and
+used those results to insert data into our SQLite database. That handler is creating a db
+record for the train with the supplied details in the request.
+The DELETE function is quite obvious if you understand the previous two handlers. We are
+making a DELETE SQL command using DB.Prepare and returning a 201 Status OK back,
+telling us the delete operation was successful. Otherwise, we are sending back the actual
+error as a server error. Now, let us write the main function handler, which is an entry point
+for our program:
