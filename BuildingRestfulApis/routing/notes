@@ -1,0 +1,3 @@
+ServeMux is an Http RREQUEST MULTIPLEXER.the HandleFunc is a method of ServeMux. 
+A multiplexer just handles the logic of separating routes with a function called ServeHTTP. So if we create a new
+struct with the ServeHTTP method, it can do the job
