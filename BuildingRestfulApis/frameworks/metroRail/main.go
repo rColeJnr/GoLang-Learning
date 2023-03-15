@@ -25,7 +25,7 @@ func main() {
 	wsContainer.Router(restful.CurlyRouter{})
 	t := data.TrainStruct{}
 	t.Register(wsContainer)
-	log.Printf("Start listening on :1205")
+	log.Printf("Start listening on :0106")
 	server := &http.Server{
 		Addr:    ":1205",
 		Handler: wsContainer,
