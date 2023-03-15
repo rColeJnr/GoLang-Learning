@@ -5,7 +5,8 @@ import (
 	"net/rpc"
 )
 
-type Args struct{}
+type Args struct {
+}
 
 func main() {
 	var reply int64
