@@ -1,0 +1,41 @@
+Middleware is an entity that hoooks into a server's request/response processing. The Middleware can be defined in many components.
+Each component has a specific function to perform. Middleware should:
+1. Process the request before hitting the handler
+2. Process the handler
+3. Process the resonse before passing to the client
+
+With the help of middleware, we can keep the housekeeping work, like authentication, in
+its proper place. Let us create a basic middleware and tamper an HTTP request in Go.
+Middleware functions should be defined when a piece of code needs to be executed for
+every request or subset of HTTP requests. Without them, we need to duplicate the logic in
+each and every handler.
+
+Closure funcs return another func.
+
+/*
+func main() {
+    numGenerator := generator()
+    for i := 0; i < 5; i++ {
+        fmt.Print(numGenerator(), "\t")
+    }
+}
+// This function returns another function
+func generator() func() int {
+    var i = 0
+    return func() int {
+        i++
+        return i
+    }
+}
+*/
+
+// RPC
+See the magic? The client is running as an independent program. Here, both the programs
+can be on different machines and the computing can still be shared. This is the core concept
+of distributed systems. The tasks are divided and given to various RPC servers. Finally, the
+client collects the results and uses them for further actions.
+
+Custom RPC code is only useful when the client and server are both written in Go. So in
+order to have the RPC server consumed by multiple services, we need to define the JSON
+RPC over HTTP. Then, any other programming language can send a JSON string and get
+JSON as a result.
