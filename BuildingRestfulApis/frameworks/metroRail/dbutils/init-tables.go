@@ -21,10 +21,10 @@ func Initialize(dbDriver *sql.DB) {
 	}
 
 	statement, _ = dbDriver.Prepare(station)
-	statement.Exec()
+	_, _ = statement.Exec()
 
 	statement, _ = dbDriver.Prepare(schedule)
-	statement.Exec()
+	_, _ = statement.Exec()
 
 	log.Println("All tables created/initialized successfully!")
 

@@ -14,7 +14,7 @@ import (
 func main() {
 	// Connect to Database
 	var err error
-	dbutils.DB, err = sql.Open("sqlite3", ".railapi.db")
+	dbutils.DB, err = sql.Open("sqlite3", "./railapi.db")
 	if err != nil {
 		log.Println("Driver creation failed!")
 	}
@@ -25,9 +25,14 @@ func main() {
 	wsContainer.Router(restful.CurlyRouter{})
 	t := data.TrainStruct{}
 	t.Register(wsContainer)
-	log.Printf("Start listening on :0106")
+	s := data.StationStruct{}
+	s.Register(wsContainer)
+	sc := data.ScheduleStruct{}
+	sc.Register(wsContainer)
+	var port string = ":1106"
+	log.Printf("Start listening on %s", port)
 	server := &http.Server{
-		Addr:    ":1205",
+		Addr:    port,
 		Handler: wsContainer,
 	}
 	log.Fatal(server.ListenAndServe())
