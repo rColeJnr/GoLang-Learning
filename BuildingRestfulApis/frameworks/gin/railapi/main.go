@@ -21,5 +21,5 @@ func main() {
 	r.GET("/stations/:stationID", data.GetStation)
 	r.POST("stations", data.CreateStation)
 	r.DELETE("stations/:stationID", data.RemoveStation)
-	log.Fatal(r.Run(":2908"))
+	log.Fatal(r.Run(":2007"))
 }

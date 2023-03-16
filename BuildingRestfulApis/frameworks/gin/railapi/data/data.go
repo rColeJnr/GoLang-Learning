@@ -35,14 +35,15 @@ type ScheduleStruct struct {
 func GetStation(c *gin.Context) {
 	var station StationStruct
 	id := c.Param("stationID")
-	err := dbutils.DB.QueryRow("select ID, NAME, CAST(OPENING_TIME as CHAR), CAST(CLOSING_TIME as CHAR) from station where id=?", id).Scan(&station.ID, &station.Name, &station.OpeningTime, &station.ClosingTime)
+	err := dbutils.DB.QueryRow("select ID, NAME, CAST(OPENING_TIME as CHAR), CAST(CLOSING_TIME as CHAR) from station where id=?", id).
+		Scan(&station.ID, &station.Name, &station.OpeningTime, &station.ClosingTime)
 	if err != nil {
 		log.Println(err)
 		c.JSON(500, gin.H{
 			"error": err.Error(),
 		})
 	} else {
-		c.JSON(200, gin.H{"result": station})
+		c.JSON(http.StatusOK, gin.H{"result": station})
 	}
 }
 

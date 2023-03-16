@@ -15,3 +15,7 @@ making a DELETE SQL command using DB.Prepare and returning a 201 Status OK back,
 telling us the delete operation was successful. Otherwise, we are sending back the actual
 error as a server error. Now, let us write the main function handler, which is an entry point
 for our program:
+
+Use the Gin framework if you are quickly prototyping a REST web
+service. You can also use it for many other things such as static file serving
+and so on.
