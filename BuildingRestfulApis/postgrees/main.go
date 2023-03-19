@@ -18,4 +18,5 @@ func main() {
 
 func name(s string) {
 	log.Printf("dudes name %v\n", s)
+	log.Printf("dudes not cool hub %v\n", s)
 }
