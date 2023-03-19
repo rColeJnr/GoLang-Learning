@@ -1,11 +1,16 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
+	"os"
+	"reflect"
+	"time"
 
-	mgo "gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // Movie holds a movie data
@@ -24,13 +29,17 @@ type BoxOffice struct {
 }
 
 func main() {
-	session, err := mgo.Dial("127.0.0.1")
-	if err != nil {
-		panic(err)
-	}
-	defer session.Close()
+	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+	fmt.Println("ClientOptopm TYPE:", reflect.TypeOf(clientOptions), "\n")
 
-	c := session.DB("appdb").C("movies")
+	client, err := mongo.Connect(context.TODO(), clientOptions)
+	if err != nil {
+		fmt.Println("Mongo.connect() ERROR: ", err)
+		os.Exit(1)
+	}
+	ctx, _ := context.WithTimeout(context.Background(), 15*time.Second)
+
+	c := client.Database("appdb").Collection("movies")
 
 	// Create a movie
 	darkNight := &Movie{
@@ -45,18 +54,19 @@ func main() {
 	}
 
 	// Insert into MongoDB
-	err = c.Insert(darkNight)
+	result, err := c.InsertOne(ctx, darkNight)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Now query the movie back
-	result := Movie{}
+	// movie := Movie{}
 	// bson.M is used for nested fields
-	err = c.Find(bson.M{"boxOffice.budget": bson.M{"$gt": 150000000}}).One(&result)
-	if err != nil {
-		log.Fatal(err)
-	}
+	// err = c.Find(ctx, bson.M{"boxOffice.budget": bson.M{"$gt": 150000000}}).One(&movie)
+	movie := c.FindOne(ctx, bson.M{"boxoffice.budget": bson.M{"$gt": 12555}})
 
-	fmt.Println("Movie:", result.Name)
+	fmt.Println("InsertOne() api result type: ", &result)
+	// fmt.Println("InsertOne() api result type: ", movie)
+	fmt.Println("Movie:", &movie)
+
 }
