@@ -6,7 +6,6 @@ import (
 )
 
 func main() {
-	name("Rick")
 	db, err := models.InitDB()
 
 	if err != nil {
@@ -14,9 +13,4 @@ func main() {
 	}
 	log.Println(err)
 
-}
-
-func name(s string) {
-	log.Printf("dudes name %v\n", s)
-	log.Printf("dudes not cool hub %v\n", s)
 }
