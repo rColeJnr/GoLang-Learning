@@ -1,0 +1,91 @@
+et us see how to define a message type in a protobuf. Here, we try to define a simple
+network interface message:
+syntax 'proto3';
+message NetworkInterface {
+    int index = 1;
+    int mtu = 2;
+    string name = 3;
+    string hardwareaddr = 4;
+}
+
+The field names are changed to comply with the JSON style guide, but the essence and
+structure are the same. But, what are the sequential numbers (1,2,3,4) given to fields in the
+protobuf file? They are the ordering tags given to serialize and deserialize protocol buffer
+data between two systems. It is like hinting the protocol buffer encoding/decoding systems
+to write/read the data in that particular order, respectively. When the preceding protobuf
+file is compiled and the programming language target is generated, the protocol buffer
+message will be converted to a Go struct and fields are filled with empty default values.
+
+Enumerations provide the ordering of numbers for a given set of elements. The default
+order of values is from zero to n. So, in protocol buffer messages, we can have an
+enumeration type. Let us see an example of the enum:
+syntax 'proto3';
+message Schedule{
+    enum Days{
+        SUNDAY = 0;
+        MONDAY = 1;
+        TUESDAY = 2;
+        WEDNESDAY = 3;
+        THURSDAY = 4;
+        FRIDAY = 5;
+        SATURDAY = 6;
+    }
+}
+
+Protobuf3 allows an option called allow aliases to assign two different members the same
+value. For example:
+enum EnumAllowingAlias {
+    option allow_alias = true;
+    UNKNOWN = 0;
+    STARTED = 1;
+    RUNNING = 1;
+}
+Here, STARTED and RUNNING both have a 1 tag. This means that both can have the same
+value in the data. If we try to remove duplicated values, we should also remove
+the allow_alias option. Otherwise, the proto compiler throws an error
+
+Repeated fields are the fields in the message of a protocol buffer that represent a list of
+items. In JSON, we have a list of elements for a given key. Similarly, repeated fields allow
+us to define an array/list of elements of a particular type:
+
+message Site{
+    string url = 1;
+    int latency = 2;
+    repeated string proxies = 3;
+}
+
+nested JSON. For example, take a look at the following
+code:
+{
+    outerJSON: {
+        outerKey1: val1,
+        innerJSON: {
+            innerKey1: val2
+        }
+    }
+}
+
+message Site {
+    string url = 1;
+    int latency = 2;
+    repeated Proxy proxies = 3;
+}
+message Proxy {
+    string url = 1;
+    int latency = 2;
+}
+Here, we are nesting the Proxy type into the Site.
+
+// Compiling a protocol buffer with protoc
+
+GRPC makes the service creation easy and elegant. It provides a nice set of APIs to define
+services and start running them
+
+
+GRPC has the following benefits over traditional HTTP/REST/JSON architecture:
+    GRPC uses HTTP/2, which is a binary protocol
+    Header compression is possible in HTTP/2, which means less overhead
+    We can multiplex many requests on one connection
+    Usage of protobufs for strict typing of data
+    Streaming of requests or responses is possible instead of request/response
+    transactions
