@@ -10,7 +10,7 @@ import (
 )
 
 var GITHUB_TOKEN = os.Getenv("GITHUB_TOKEN")
-var ro = &grequests.RequestOptions{Auth: []string{GITHUB_TOKEN, "x-oauth-basic"}}
+var ro = &grequests.RequestOptions{}
 
 // struct to hold response of repos fetched
 type Repo struct {
@@ -44,7 +44,7 @@ func getStats(url string) *grequests.Response {
 	return resp
 }
 
-// Read the files provided and creates Gist on github
+// Read the files provided and creates Gist on GitHub
 func createGist(url string, args []string) *grequests.Response {
 	// get first two arguments
 	description := args[0]

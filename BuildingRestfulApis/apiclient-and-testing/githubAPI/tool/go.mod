@@ -1,4 +1,4 @@
-module gittool
+module tool
 
 go 1.20
 
