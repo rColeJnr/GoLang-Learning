@@ -7,7 +7,7 @@ import (
 import "crypto/cipher"
 
 // Implements AES encryption algorithm (Rijndael Algo)
-var initVector = []byte{35, 46, 23, 85, 35, 24, 74, 87, 35, 88, 98, 66, 32, 14, 05}
+var initVector = []byte{35, 46, 57, 24, 85, 35, 24, 74, 87, 35, 88, 98, 66, 32, 14, 05}
 
 // creates a cipher block a given int key, the we pass the block to a cipher block encrutor func
 // This encryptor rakes the block and initialization vector.
