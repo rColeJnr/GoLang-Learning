@@ -1,5 +1,7 @@
 package helpers
 
+import "github.com/go-kit/kit/log"
+
 // EncryptRequest coming from client
 type EncryptRequest struct {
 	Text string `json:"text"`
@@ -24,7 +26,7 @@ type DecryptResponse struct {
 	Err  string `json:"err"`
 }
 
-//type LoggingMiddleware struct {
-//	Logger log.Logger
-//	Next   EncryptService
-//}
+type LoggingMiddleware struct {
+	Logger log.Logger
+	Next   EncryptService
+}
