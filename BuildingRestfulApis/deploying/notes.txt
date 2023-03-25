@@ -1,0 +1,11 @@
+a proxy server is a server that holds info of original servers in it.
+whever a client makes an HTTP request, it can go directly to the application server. but, if the app server is writtin in a programming language, you need a translator that can turn the application
+repsponse into a client-undertandable response.
+
+if the same machine is running multiple apps, then we can bring all those under one umbrella. nginx can also act ass te API gateway that can be the starting point for multiple API endpoints.
+while running nginx instad of ports where application are running you talk directly to nginx.
+
+Using nginx a pytohn app can request an API endpoint from A Go app smoothly.
+
+
+SERRVER BLOCKS
