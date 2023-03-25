@@ -9,7 +9,7 @@ import "crypto/cipher"
 // Implements AES encryption algorithm (Rijndael Algo)
 var initVector = []byte{35, 46, 57, 24, 85, 35, 24, 74, 87, 35, 88, 98, 66, 32, 14, 05}
 
-// creates a cipher block a given int key, the we pass the block to a cipher block encrutor func
+// EncryptString creates a cipher block a given int key, the we pass the block to a cipher block encrutor func
 // This encryptor rakes the block and initialization vector.
 // Then XORKeyStream creates a cipher on the cipher block. it fills the ciphertext.
 // Then we do a base64 encoding to generate the protected string
@@ -25,7 +25,7 @@ func EncryptString(key, text string) string {
 	return base64.StdEncoding.EncodeToString(ciphertext)
 }
 
-// here we decode the base64 encoding,
+// DecryptString here we decode the base64 encoding,
 // create a cipher block with the key. and then reverse the process
 // XORKeyStream with go from cipher text to plain text.
 func DecryptString(key, text string) string {
