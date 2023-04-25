@@ -106,3 +106,15 @@ func main() {
 	}
 	log.Fatal(srv.ListenAndServe())
 }
+
+/*
+	keying on this thing actually feels nice, uhmmmmm
+
+u babyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+baybeeeeeeeeeeeeeeeeeeeee
+uhmmmmm, can u hear it, damn son
+
+
+
+
+*/
